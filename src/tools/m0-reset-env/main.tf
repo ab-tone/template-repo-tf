@@ -24,6 +24,8 @@ module "gcloud" {
   # version = "3.3" # 847e96e764a7928a0a8420e7d7b63fc9912f3dc0
   source = "git::https://github.com/terraform-google-modules/terraform-google-gcloud.git/?ref=847e96e764a7928a0a8420e7d7b63fc9912f3dc0"
 
+  count = var.remove_previous ? 1 : 0
+
   module_depends_on = [module.project_services]
 
   create_cmd_entrypoint = "chmod +x ${path.module}/scripts/hose_default_vpc.sh; ${path.module}/scripts/hose_default_vpc.sh ${var.project_id}"

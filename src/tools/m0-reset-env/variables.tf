@@ -9,3 +9,9 @@ variable "enable_apis" {
   type        = bool
   default     = true
 }
+
+variable "remove_previous" {
+  description = "Set to `true` to remove any existing network named 'default', or `false` to leave it in place (default=`true`)"
+  type        = bool
+  default     = true
+}
