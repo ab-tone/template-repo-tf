@@ -300,3 +300,6 @@ Procfile          text
 
 # Prevents massive diffs from built files
 dist/*            binary
+
+# python requirements *.in files are text
+*.in       text

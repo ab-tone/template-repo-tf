@@ -1,18 +1,21 @@
 {
-    "editor.formatOnSave": true,
-    "files.insertFinalNewline": true,
-    "[terraform]": {
-        "editor.defaultFormatter": "hashicorp.terraform",
-        "editor.formatOnSave": false,
-        "editor.codeActionsOnSave": {
-            "source.formatAll.terraform": true
-        },
+  "editor.formatOnSave": true,
+  "files.insertFinalNewline": true,
+  "[terraform]": {
+    "editor.defaultFormatter": "hashicorp.terraform",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.formatAll.terraform": true
     },
-    "[terraform-vars]": {
-        "editor.defaultFormatter": "hashicorp.terraform",
-        "editor.formatOnSave": false,
-        "editor.codeActionsOnSave": {
-            "source.formatAll.terraform": true
-        },
-    }
+  },
+  "[terraform-vars]": {
+    "editor.defaultFormatter": "hashicorp.terraform",
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.formatAll.terraform": true
+    },
+  },
+  "files.exclude": {
+    "**/.pre-commit": true
+  }
 }

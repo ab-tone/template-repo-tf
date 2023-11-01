@@ -248,3 +248,9 @@ terraform.rc
 *.xhtml
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,web,terraform,python
+
+# .swp file for nano editing
+*.swp
+
+# docker pre-commit cache
+.pre-commit
