@@ -24,6 +24,8 @@ function _do_run_precommit() {
   local -r config=".pre-commit-config.yaml"
   mkdir -p $(pwd)/$pcpath/$pccpath
   mkdir -p $(pwd)/$pcpath/$tfcpath
+  mkdir -p $(pwd)/$pcpath/terrascan/logs
+  mkdir -p $(pwd)/$pcpath/terrascan/temp
 
   local args=(run --config=$config ${stage:+--hook-stage=pre-push} -a "$@")
 
