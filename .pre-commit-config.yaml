@@ -57,3 +57,12 @@ repos:
           - --args=--enable-secret-scan-all-files
           # - --args=--config=__GIT_WORKING_DIR__/.checkov.yml
           # - --args=--create-config true
+      - id: terrascan
+        stages: [pre-push]
+        args:
+          - --args=--verbose
+          #- --args=--policy-type gcp
+          - --args=--log-output-dir /.pre-commit/terrascan/logs
+          #- --args=--temp-dir /.pre-commit/terrascan/temp
+          - --args=--non-recursive # avoids scan errors on subdirectories without Terraform config files
+
