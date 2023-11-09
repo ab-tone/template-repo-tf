@@ -4,7 +4,7 @@ function do_apply() {
   local OPTIND arg ans hasopts
   local project_id remove_previous skip_init no_ask speed_run
 
-  while getopts "hp:ragf" arg; do
+  while getopts "hp:rags" arg; do
     hasopts=1
     echo "'$arg': '$OPTARG'"
     case $arg in
@@ -15,7 +15,7 @@ function do_apply() {
 
       a) no_ask="1";; # -a to suppress asking for inputs
       g) skip_init="1";; # just go: set to skip the terraform init
-      f) speed_run="1";; # just do, don't ask to show things or do apply
+      s) speed_run="1";; # just do, don't ask to show things or do apply
       \?) echo "invalid option -$OPTARG" >&2; unset hasopts; break;;
     esac
   done
