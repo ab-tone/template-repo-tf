@@ -33,6 +33,7 @@ Automation and speed-up
 -g               no-tf-init. Skip running terraform init, e.g. if you know you already did it
 -s               speed-run. Don't stop and ask to show plan output, just plan and apply
 EOF
+  return 1;
   fi
 
   if [[ -z $no_ask ]]; then
