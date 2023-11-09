@@ -25,8 +25,8 @@ function do_apply() {
   no switches
 
 Operational params
--p               Set the project_id. If not set, then takes the value from the global \$proj_id env var
--r               Specify this to remove the previous default network
+-p               project-id. If not set, then takes the value from the global \$proj_id env var
+-r               remove-default. Specify this to delete any pre-existing default network
 
 Automation and speed-up
 -a               no-ask. Only error if inputs not given, don\'t ask interactively.
