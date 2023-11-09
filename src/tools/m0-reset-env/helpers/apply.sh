@@ -2,24 +2,26 @@
 
 function do_apply() {
   local OPTIND arg ans hasopts
-  local project_id remove_previous skip_init no_ask quiet
+  local project_id remove_previous skip_init no_ask go_fast
 
-  while getopts "p:rgaq" arg; do
+  while getopts "hp:ragf" arg; do
     hasopts=1
     echo "'$arg': '$OPTARG'"
     case $arg in
+      h) unset hasopts; break;;
+
       p) project_id="${OPTARG}";; # specify the project to use
       r) remove_previous="1";; # set to 1 remove the existing network with the name 'default'
-      g) skip_init="1";; # just go: set to skip the terraform init
+
       a) no_ask="1";; # -a to suppress asking for inputs
-      q) quiet="1";; # just do, don't ask to show things or do apply
-      \?) unset no_ask; break;;
-      *) echo "invalid option -$OPTARG" >&2; unset no_ask; break;;
+      g) skip_init="1";; # just go: set to skip the terraform init
+      f) go_fast="1";; # just do, don't ask to show things or do apply
+      \?) echo "invalid option -$OPTARG" >&2; unset hasopts; break;;
     esac
   done
   if [[ -z "$hasopts" ]]; then
     cat <<EOF
--?               Show this help text
+-h               Show this help text
   no switches
 
 Operational params
@@ -29,7 +31,7 @@ Operational params
 Automation and speed-up
 -a               No-ask. Only error if inputs not given, don\'t ask interactively.
 -g               Specify to skip running terraform init, e.g. if you know you already did it
-
+-f               Fast run - don't stop and ask to show plan output, just plan and apply
 EOF
   fi
 
@@ -58,7 +60,7 @@ EOF
   terraform show tfplan -no-color > tfplan.txt
   ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $?; fi
 
-  if [[ -z "$quiet" ]]; then
+  if [[ -z "$go_fast" ]]; then
     read -p "Plan complete, page through plan stdout? (Y/n/x): " ans
     if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
     if [[ "${ans:-y}" =~ ^[yY]$ ]]; then less -R tfplan.stdout.txt; fi
@@ -68,7 +70,7 @@ EOF
     if [[ "${ans:-y}" =~ ^[yY]$ ]]; then less -R tfplan.asci; fi
   fi
 
-  if [[ -z "$quiet" ]]; then
+  if [[ -z "$go_fast" ]]; then
     read -p "Press enter to do the apply? (Y/n/x): " ans
     if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
   else
