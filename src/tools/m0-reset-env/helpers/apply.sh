@@ -2,7 +2,7 @@
 
 function do_apply() {
   local OPTIND arg ans hasopts
-  local project_id remove_previous skip_init no_ask go_fast
+  local project_id remove_previous skip_init no_ask speed_run
 
   while getopts "hp:ragf" arg; do
     hasopts=1
@@ -15,7 +15,7 @@ function do_apply() {
 
       a) no_ask="1";; # -a to suppress asking for inputs
       g) skip_init="1";; # just go: set to skip the terraform init
-      f) go_fast="1";; # just do, don't ask to show things or do apply
+      f) speed_run="1";; # just do, don't ask to show things or do apply
       \?) echo "invalid option -$OPTARG" >&2; unset hasopts; break;;
     esac
   done
@@ -29,9 +29,9 @@ Operational params
 -r               Specify this to remove the previous default network
 
 Automation and speed-up
--a               No-ask. Only error if inputs not given, don\'t ask interactively.
--g               Specify to skip running terraform init, e.g. if you know you already did it
--f               Fast run - don't stop and ask to show plan output, just plan and apply
+-a               no-ask. Only error if inputs not given, don\'t ask interactively.
+-g               no-tf-init. Skip running terraform init, e.g. if you know you already did it
+-s               speed-run. Don't stop and ask to show plan output, just plan and apply
 EOF
   fi
 
@@ -60,7 +60,7 @@ EOF
   terraform show tfplan -no-color > tfplan.txt
   ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $?; fi
 
-  if [[ -z "$go_fast" ]]; then
+  if [[ -z "$speed_run" ]]; then
     read -p "Plan complete, page through plan stdout? (Y/n/x): " ans
     if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
     if [[ "${ans:-y}" =~ ^[yY]$ ]]; then less -R tfplan.stdout.txt; fi
@@ -70,7 +70,7 @@ EOF
     if [[ "${ans:-y}" =~ ^[yY]$ ]]; then less -R tfplan.asci; fi
   fi
 
-  if [[ -z "$go_fast" ]]; then
+  if [[ -z "$speed_run" ]]; then
     read -p "Press enter to do the apply? (Y/n/x): " ans
     if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
   else
