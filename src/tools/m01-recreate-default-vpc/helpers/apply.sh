@@ -43,12 +43,12 @@ function do_apply() {
     ${remove_previous:+-var="remove_previous=$remove_previous"} \
     ${destroy:+-destroy} \
     -out tfplan > tfplan.stdout.txt
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf plan failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf plan failed: $ret" >&2; return $ret; fi
 
   terraform show tfplan > tfplan.asci
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to asci failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to asci failed: $ret" >&2; return $ret; fi
   terraform show tfplan -no-color > tfplan.txt
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $ret; fi
 
   read -p "Plan complete, page through plan stdout? (Y/n/x): " ans
   if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
@@ -62,7 +62,7 @@ function do_apply() {
   if [[ "${ans:-y}" =~ ^[xX]$ ]]; then return 0; fi
   if [[ "${ans:-y}" =~ ^[yY]$ ]]; then
     terraform apply tfplan
-    ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf apply failed: $ret" >&2; return $?; fi
+    ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf apply failed: $ret" >&2; return $ret; fi
   fi
 }
 
