@@ -54,12 +54,12 @@ EOF
   terraform plan -var="project_id=$project_id" \
     ${remove_previous:+-var="remove_previous=$remove_previous"} \
     -out tfplan > tfplan.stdout.txt
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf plan failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf plan failed: $ret" >&2; return $ret; fi
 
   terraform show tfplan > tfplan.asci
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to asci failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to asci failed: $ret" >&2; return $ret; fi
   terraform show tfplan -no-color > tfplan.txt
-  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $?; fi
+  ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf show to txt failed: $ret" >&2; return $ret; fi
 
   if [[ -z "$speed_run" ]]; then
     read -p "Plan complete, page through plan stdout? (Y/n/x): " ans
@@ -80,7 +80,7 @@ EOF
 
   if [[ "${ans:-y}" =~ ^[yY]$ ]]; then
     terraform apply tfplan
-    ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf apply failed: $ret" >&2; return $?; fi
+    ret=$?; if [[ "$ret" -ne 0 ]]; then echo "ERROR: tf apply failed: $ret" >&2; return $ret; fi
   fi
 }
 
